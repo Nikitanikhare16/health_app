@@ -1,25 +1,64 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import MenuBar from './MenuBar/MenuBar';
+import AddHealthData from './component/AddHealthData/AddHealthData';
+import ShowHealthData from './component/ShowHealthData/ShowHealthData';
+import AnalyticsData from './component/AnalyticsData/AnalyticsData';
+import { MainContextWrapper } from './Store/mainContext/mainContext';
+import { Link, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import MainComponent from './MainComponent/MainComponent';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+ const [loadComponent,setLoadComponent] = useState (<AddHealthData/>)
+   
+     const router = createBrowserRouter([{
+      path:"/",
+      element:<MainComponent></MainComponent>,
+
+      children: [
+        {
+          path: "/",
+          element: <AddHealthData></AddHealthData>,
+        },
+        {
+          path: "/showData",
+          element: <ShowHealthData></ShowHealthData>,
+        },
+        {
+          path: "/AnData",
+          element: <AnalyticsData></AnalyticsData>,
+        },
+      ],
+     }]
+    //   [
+    //   {
+    //     path: "/",
+    //     element: <AddHealthData/>,
+    //   },
+    //   {
+    //     path: "/showData",
+    //     element: <ShowHealthData/>,
+    //   },
+    //   {
+    //     path: "/anData",
+    //     element: <AnalyticsData/>,
+    //   },
+    // ]
+  );
+     return (
+      <MainContextWrapper>  
+              {/* <a href="http://localhost:3000/showData">Show Data</a> */}
+         {/* <div>
+        <MenuBar buttonArr={buttonArr}></MenuBar>
+        {loadComponent}
+    </div> */}
+     <div>        
+          {/* <MenuBar buttonArr={buttonArr}></MenuBar> */}
+       
+        <RouterProvider router={router} />
+        </div>
+    </MainContextWrapper>
+
   );
 }
 
